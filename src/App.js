@@ -7,6 +7,7 @@ class App extends Component {
 
     this.state = {
         monsters: [],
+        inputText: ''
     };
   }
 
@@ -27,7 +28,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.monsters.map((monster) => {
+        <input 
+          className='search-box' 
+          type='search' 
+          placeholder='search monsters' 
+          onChange={(event) => {
+            this.setState(() => {
+              return { inputText: event.target.value.toLowerCase() }
+            });
+          }}/>
+        {this.state.monsters.filter(monster => monster.name.toLowerCase().includes(this.state.inputText)).map((monster) => {
           return (
             <div key={monster.id}>
               <h1>{monster.name}</h1>
