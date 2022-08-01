@@ -11,6 +11,12 @@ class App extends Component {
     };
   }
 
+  onSearchChange = (event) => {
+    this.setState(() => {
+      return { inputText: event.target.value.toLowerCase() }
+    });
+  }
+
   componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
@@ -26,18 +32,16 @@ class App extends Component {
   }
 
   render() {
+    const { monsters, inputText } = this.state;
+    const { onSearchChange } = this;
     return (
       <div className="App">
         <input 
           className='search-box' 
           type='search' 
           placeholder='search monsters' 
-          onChange={(event) => {
-            this.setState(() => {
-              return { inputText: event.target.value.toLowerCase() }
-            });
-          }}/>
-        {this.state.monsters.filter(monster => monster.name.toLowerCase().includes(this.state.inputText)).map((monster) => {
+          onChange={onSearchChange}/>
+        {monsters.filter(monster => monster.name.toLowerCase().includes(inputText)).map((monster) => {
           return (
             <div key={monster.id}>
               <h1>{monster.name}</h1>
